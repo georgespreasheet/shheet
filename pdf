@@ -1,0 +1,266 @@
+function copierColler() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet(); // accéder à la feuille active
+  var data = sheet.getRange('A1:A100').getValues(); // lire les données de la colonne A
+  console.log('data: ', data);
+  
+  var targetCells = ['B1', 'C10', 'D20', 'E30', 'F40', 'G50', 'H60', 'I70', 'J80', 'K90']; // les cellules cibles où les données seront collées
+  console.log('targetCells: ', targetCells);
+
+  data.forEach(function(row, index){
+    if (row[0] !== '' && targetCells[index]) { // vérifie si la cellule n'est pas vide et si une cellule cible est définie
+      // copier la valeur à un nouvel emplacement
+      var targetCell = sheet.getRange(targetCells[index]);
+      console.log('targetCell: ', targetCell.getA1Notation(), ', value: ', row[0]);
+      targetCell.setValue(row[0]);
+    }
+  });
+}
+
+function onOpen() {
+  SpreadsheetApp.getUi()
+  .createMenu('Custom Menu')
+  .addItem('Generate PDF', 'generatePDF')
+  .addToUi();
+}
+
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = spreadsheet.getActiveSheet();
+  var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+  var token = ScriptApp.getOAuthToken();
+  var response = UrlFetchApp.fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
+  
+  var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+  
+  // Save to Google Drive
+  var file = DriveApp.createFile(blob);
+  
+  // Provide the URL of the PDF
+  var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+  Logger.log('PDF URL: ' + pdfURL);
+}
+
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = spreadsheet.getActiveSheet();
+  var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+  var token = ScriptApp.getOAuthToken();
+  var response = UrlFetchApp.fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
+
+  var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+  
+  // Save to Google Drive
+  var file = DriveApp.createFile(blob);
+
+  // Send the PDF as an email attachment
+  var email = "destinataire@example.com"; // Replace this with the recipient email address
+  var subject = "Votre PDF";
+  var body = "Veuillez trouver ci-joint le PDF généré.";
+  MailApp.sendEmail({
+    to: email,
+    subject: subject,
+    body: body,
+    attachments: [file]
+  });
+
+  // Provide the URL of the PDF
+  var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+  Logger.log('PDF URL: ' + pdfURL);
+}
+
+
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetsToExport = ["Sheet1", "Sheet3"]; // Remplacez par les noms de vos feuilles
+  
+  sheetsToExport.forEach(function(name) {
+    var sheet = spreadsheet.getSheetByName(name);
+    var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+    var token = ScriptApp.getOAuthToken();
+    var response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+
+    // Save to Google Drive
+    var file = DriveApp.createFile(blob);
+
+    // Send the PDF as an email attachment
+    var email = "destinataire@example.com"; // Replace this with the recipient email address
+    var subject = "Votre PDF";
+    var body = "Veuillez trouver ci-joint le PDF généré.";
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: body,
+      attachments: [file]
+    });
+
+    // Provide the URL of the PDF
+    var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+    Logger.log('PDF URL: ' + pdfURL);
+  });
+}
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = spreadsheet.getActiveSheet();
+  var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+  var token = ScriptApp.getOAuthToken();
+  var response = UrlFetchApp.fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
+
+  var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+
+  // Save to Google Drive
+  var file = DriveApp.createFile(blob);
+
+  // Share the file with the user
+  var userEmail = "destinataire@example.com"; // Replace this with the user's email address
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+  // Provide the URL of the PDF
+  var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+  Logger.log('PDF URL: ' + pdfURL);
+
+  // You can also send the link via email if needed
+  /*
+  var subject = "Votre PDF";
+  var body = "Vous pouvez voir le PDF généré à l'adresse suivante : " + pdfURL;
+  MailApp.sendEmail({
+    to: userEmail,
+    subject: subject,
+    body: body
+  });
+  */
+}
+
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetsToExport = ["Sheet1", "Sheet3"]; // Incluez seulement les noms des feuilles que vous voulez exporter en PDF
+  
+  sheetsToExport.forEach(function(name) {
+    var sheet = spreadsheet.getSheetByName(name);
+    var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+    var token = ScriptApp.getOAuthToken();
+    var response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+
+    // Save to Google Drive
+    var file = DriveApp.createFile(blob);
+
+    // Send the PDF as an email attachment
+    var email = "destinataire@example.com"; // Replace this with the recipient email address
+    var subject = "Votre PDF";
+    var body = "Veuillez trouver ci-joint le PDF généré.";
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: body,
+      attachments: [file]
+    });
+
+    // Provide the URL of the PDF
+    var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+    Logger.log('PDF URL: ' + pdfURL);
+  });
+}
+
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetsToExclude = ["Sheet2", "Sheet4"]; // Les noms des feuilles que vous voulez exclure
+  
+  var allSheets = spreadsheet.getSheets();
+  
+  allSheets.forEach(function(sheet) {
+    if (!sheetsToExclude.includes(sheet.getName())) {
+      var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+      var token = ScriptApp.getOAuthToken();
+      var response = UrlFetchApp.fetch(url, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+
+      // Save to Google Drive
+      var file = DriveApp.createFile(blob);
+
+      // Send the PDF as an email attachment
+      var email = "destinataire@example.com"; // Replace this with the recipient email address
+      var subject = "Votre PDF";
+      var body = "Veuillez trouver ci-joint le PDF généré.";
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: body,
+        attachments: [file]
+      });
+
+      // Provide the URL of the PDF
+      var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+      Logger.log('PDF URL: ' + pdfURL);
+    }
+  });
+}
+function generatePDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetsToExclude = ["Sheet2", "Sheet4"]; // Les noms des feuilles que vous voulez exclure
+  
+  var allSheets = spreadsheet.getSheets();
+  
+  allSheets.forEach(function(sheet) {
+    if (!sheetsToExclude.includes(sheet.getName())) {
+      var url = 'https://docs.google.com/spreadsheets/d/' + spreadsheet.getId() + '/export?exportFormat=pdf&format=pdf' + '&size=letter' + '&portrait=true' + '&fitw=true' + '&top_margin=0.75' + '&bottom_margin=0.75' + '&left_margin=0.7' + '&right_margin=0.7' + '&sheetnames=false&printtitle=false' + '&pagenumbers=false&gridlines=false' + '&fzr=false' + '&gid=' + sheet.getSheetId();
+      var token = ScriptApp.getOAuthToken();
+      var response = UrlFetchApp.fetch(url, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      var blob = response.getBlob().setName(sheet.getName() + '.pdf');
+
+      // Save to Google Drive
+      var file = DriveApp.createFile(blob);
+
+      // Send the PDF as an email attachment
+      var email = "destinataire@example.com"; // Replace this with the recipient email address
+      var subject = "Votre PDF";
+      var body = "Veuillez trouver ci-joint le PDF généré.";
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: body,
+        attachments: [file]
+      });
+
+      // Provide the URL of the PDF
+      var pdfURL = 'https://drive.google.com/open?id=' + file.getId();
+      Logger.log('PDF URL: ' + pdfURL);
+    }
+  });
+}
