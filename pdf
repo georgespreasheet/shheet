@@ -264,3 +264,25 @@ function generatePDF() {
     }
   });
 }
+
+function exportSheetAsPDF() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = spreadsheet.getActiveSheet();
+
+  // Define the PDF options
+  var pdfOptions = {
+    'scale': 1,       // Adjust this value to fit more on a page (1 = 100%, 0.5 = 50%, etc.)
+    'fitw': true,     // Fit to page width (false by default)
+    'sheetnames': false,   // Hide the sheet name
+    'printtitle': false,   // Hide the spreadsheet title
+    'pagenum': 'UNDEFINED', // Hide the page numbers
+    'attachment': false
+  };
+
+  // Create the PDF blob
+  var pdf = DriveApp.getFileById(spreadsheet.getId()).getAs('application/pdf');
+  
+  // Save the PDF to Drive
+  DriveApp.createFile(pdf);
+}
+
