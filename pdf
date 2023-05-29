@@ -283,6 +283,6 @@ function exportSheetAsPDF() {
   var pdf = DriveApp.getFileById(spreadsheet.getId()).getAs('application/pdf');
   
   // Save the PDF to Drive
-  DriveApp.createFile(pdf);
+  DriveApp.createFile(pdf).setName("x");
 }
 
